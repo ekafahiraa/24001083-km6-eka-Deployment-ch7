@@ -15,7 +15,7 @@ export default function LandingPage() {
   console.log("popular movies: ", popularMovies);
 
   useEffect(() => {
-    dispatch(setCurrentSlide(1));
+    dispatch(setCurrentSlide(0));
     dispatch(fetchPopularMovies());
   }, []);
 
