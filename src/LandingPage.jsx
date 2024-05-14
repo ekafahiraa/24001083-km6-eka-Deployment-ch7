@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./App.css";
 import { setCurrentSlide } from "./redux/reducers/movieReducers";
+import { fetchPopularMovies } from "./redux/actions/movieActions";
 
 export default function LandingPage() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     dispatch(setCurrentSlide(1));
+    dispatch(fetchPopularMovies());
   }, []);
 
   // Mengatur interval untuk mengganti slide setiap 3 detik
