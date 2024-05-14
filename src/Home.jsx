@@ -23,6 +23,11 @@ export default function Home() {
   const trendingMovies = useSelector((state) => state?.movies?.trendingMovies); // Mengambil data trendingMovies dari Reducers menggunakan useSelector
   const navigate = useNavigate();
 
+  // Mengambil data film di actions
+  useEffect(() => {
+    dispatch(fetchPopularMovies());
+  }, []);
+
   // Mengatur interval untuk mengganti slide setiap 3 detik
   useEffect(() => {
     const interval = setInterval(() => {
