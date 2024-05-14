@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./App.css";
-import { FaPlay } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate, Link } from "react-router-dom";
 import { setCurrentSlide } from "./redux/reducers/movieReducers";
@@ -25,7 +24,7 @@ export default function Home() {
 
   // Mengambil data film di actions
   useEffect(() => {
-    dispatch(fetchPopularMovies());
+    dispatch(setCurrentSlide(1));
   }, []);
 
   // Mengatur interval untuk mengganti slide setiap 3 detik
@@ -43,7 +42,7 @@ export default function Home() {
     dispatch(fetchPopularMovies());
     dispatch(fetchNowPlayingMovies());
     dispatch(fetchTrendingMovies());
-    dispatch(setCurrentSlide(0));
+    dispatch(setCurrentSlide(1));
   }, [dispatch]);
 
   useEffect(() => {

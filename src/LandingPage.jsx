@@ -13,6 +13,10 @@ export default function LandingPage() {
   console.log("movies: ", movies);
   console.log("popular movies: ", popularMovies);
 
+  useEffect(() => {
+    dispatch(setCurrentSlide(1));
+  }, []);
+
   // Mengatur interval untuk mengganti slide setiap 3 detik
   useEffect(() => {
     const interval = setInterval(() => {
