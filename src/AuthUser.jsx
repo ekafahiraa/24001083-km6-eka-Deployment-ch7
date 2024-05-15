@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import backgroundImage from "./bguser.png";
-import { IoPersonCircleOutline } from "react-icons/io5";
+import { BsFillPersonVcardFill } from "react-icons/bs";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { fetchAuthUser } from "./redux/actions/authActions";
@@ -26,7 +26,20 @@ export default function AuthUser() {
       // Mengarahkan pengguna ke halaman login
       navigate("/login-user");
     }
-  }, []);
+  }, [navigate]);
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+      localStorage.removeItem("token");
+      navigate("/"); // Navigasi kembali ke halaman landing page setelah logout
+      alert("Logout Successful!");
+    }
+  };
+
+  const handleNavigateHome = () => {
+    navigate("/home");
+  };
 
   return (
     <div style={{ fontFamily: "sans-serif" }}>
@@ -45,34 +58,59 @@ export default function AuthUser() {
           padding: "20px",
         }}
       >
-        <div className="bg-[#B22222] max-w-[400px] w-full rounded-xl mt-10 mb-10 py-2 px-2 pb-5 pt-3 mr-14">
-          <div className="max-w-[450px] mx-auto flex flex-col justify-center items-center">
-            <p className="text-3xl text-white font-semibold mt-5 mb-5 text-center">
-              Your Profiles
-            </p>
-            {user && (
-              <>
-                <p className="text-2xl text-white font-bold mb-5 flex items-center">
-                  <IoPersonCircleOutline className="mr-2 w-8 h-8" />
-                  {user.name}
-                </p>
-
-                <div className="text-left text-white mt-7 mb-5">
-                  <p className="font-medium">
-                    <span className="mr-2 my-6 font-semibold">Name:</span>
-                    {user.name}
-                  </p>
-                  <p className="font-medium">
-                    <span className="mr-2 my-6 font-semibold">Email:</span>
-                    {user.email}
-                  </p>
-                  <p className="font-medium">
-                    <span className="mr-2 my-6 font-semibold">Joined:</span>
-                    {user.createdAt}
-                  </p>
-                </div>
-              </>
-            )}
+        <div className="max-w-[450px] w-full mt-10 mb-10 mr-14">
+          <div className="bg-[#B22222] w-full text-center py-3 rounded-t-2xl mb-[-1px]">
+            <h2 className="text-3xl text-white font-semibold">User Details</h2>
+          </div>
+          <div className="bg-white rounded-b-2xl shadow-lg py-6 px-8">
+            <div className="flex flex-col justify-center items-center">
+              {user && (
+                <>
+                  <div className="text-center mb-7">
+                    <p className="text-2xl text-[#2C2C2C] font-bold flex items-center justify-center">
+                      <BsFillPersonVcardFill className="mr-2 w-9 h-9" />
+                      {user.name}
+                    </p>
+                  </div>
+                  <div className="text-left text-[#2C2C2C] w-full mb-8">
+                    <p className="font-medium text-base mb-2">
+                      <span className="mr-2 font-semibold">Name:</span>
+                      {user.name}
+                    </p>
+                    <p className="font-medium text-base mb-2">
+                      <span className="mr-2 font-semibold">Email:</span>
+                      {user.email}
+                    </p>
+                    <p className="font-medium text-base mb-2">
+                      <span className="mr-2 font-semibold">ID:</span>
+                      {user.id}
+                    </p>
+                    <p className="font-medium text-base mb-2">
+                      <span className="mr-2 font-semibold">Joined:</span>
+                      {user.createdAt}
+                    </p>
+                    <p className="font-medium text-base">
+                      <span className="mr-2 font-semibold">Type:</span>
+                      {user.type}
+                    </p>
+                  </div>
+                  <div className="flex justify-between w-full">
+                    <button
+                      onClick={handleNavigateHome}
+                      className="bg-[#B22222] text-white font-semibold py-2 px-8 rounded-lg shadow-lg hover:bg-[#8B0000] transition duration-300 w-1/2 mr-2"
+                    >
+                      Back to Home
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="bg-[#B22222] text-white font-semibold py-2 px-8 rounded-lg shadow-lg hover:bg-[#8B0000] transition duration-300 w-1/2 ml-2"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

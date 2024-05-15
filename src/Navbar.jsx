@@ -4,31 +4,33 @@ import { BiCameraMovie, BiSolidUserDetail } from "react-icons/bi";
 import { FaSearch } from "react-icons/fa";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
+import { FiMenu, FiX } from "react-icons/fi";
 import axios from "axios";
 
 export default function Navbar() {
-  // Mengecek jika pengguna sudah Login
   const isLoggedIn = localStorage.getItem("token");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
 
-  // Mengaktifkan visibilitas dropdown
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
-  // Meng-handle logout
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   const handleLogout = () => {
     const confirmLogout = window.confirm("Are you sure you want to logout?");
     if (confirmLogout) {
       localStorage.removeItem("token");
-      navigate("/"); // Navigasi kembali ke halaman landing page setelah logout
+      navigate("/");
       alert("Logout Successful!");
     }
   };
 
-  // Meng-handle alert untuk pengguna yang belum login
   const handleUnauthorizedClick = (event) => {
     if (!isLoggedIn) {
       event.preventDefault();
@@ -36,7 +38,6 @@ export default function Navbar() {
     }
   };
 
-  // Navigasi ke halaman home jika pengguna sudah masuk
   const homeLink = isLoggedIn ? "/home" : "/";
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function Navbar() {
 
   return (
     <nav className="py-4 px-6 top-0 w-full bg-[#B22222] fixed z-10">
-      <div className="container flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center">
         <Link
           to={homeLink}
           className="flex items-center text-4xl font-semibold text-white"
@@ -77,13 +78,25 @@ export default function Navbar() {
           <BiCameraMovie className="w-35 h-35 mr-2 text-white" />
           <span className="italic">Streamflix</span>
         </Link>
+        <div className="md:hidden">
+          <button
+            onClick={toggleMenu}
+            className="text-white focus:outline-none"
+          >
+            {menuOpen ? (
+              <FiX className="w-8 h-8" />
+            ) : (
+              <FiMenu className="w-8 h-8" />
+            )}
+          </button>
+        </div>
         <div className="hidden md:flex items-center gap-2 relative">
           <div className="flex gap-4">
             {isLoggedIn ? (
               <div className="relative flex items-center">
                 <button
                   onClick={toggleDropdown}
-                  className="flex items-center px-2 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold mr-3"
+                  className="flex items-center px-2 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold"
                 >
                   <IoPersonCircleOutline className="w-8 h-8 ease-in-out transform hover:scale-125" />
                   <span className="ml-2">Account</span>
@@ -113,40 +126,111 @@ export default function Navbar() {
             ) : (
               <Link
                 to="/login-user"
-                className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold mr-3"
+                className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
               >
                 Sign In
               </Link>
             )}
             <Link
               to={homeLink}
-              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold mr-3"
+              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
             >
               Home
             </Link>
             <Link
               to="/upcoming-movie"
-              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold mr-3"
+              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
               onClick={handleUnauthorizedClick}
             >
               UpComing
             </Link>
             <Link
               to="/top-rated-movie"
-              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold mr-3"
+              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
               onClick={handleUnauthorizedClick}
             >
               Top Rated
             </Link>
             <Link
               to="/search-movie"
-              className="border-2 border-white rounded-xl px-4 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold mr-3 flex items-center"
+              className="border-2 border-white rounded-xl px-4 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold flex items-center"
               onClick={handleUnauthorizedClick}
             >
               <FaSearch className="mr-3" />
               Search
             </Link>
           </div>
+        </div>
+        <div
+          className={`flex-col ${
+            menuOpen ? "flex" : "hidden"
+          } md:hidden items-center bg-[#B22222] w-full mt-4 rounded-lg shadow-lg transition-all duration-300 ease-in-out`}
+        >
+          {isLoggedIn ? (
+            <div className="flex flex-col items-center w-full">
+              <button
+                onClick={toggleDropdown}
+                className="flex items-center px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full"
+              >
+                <IoPersonCircleOutline className="w-8 h-8 ease-in-out transform hover:scale-125" />
+                <span className="ml-2">Account</span>
+              </button>
+
+              {showDropdown && (
+                <div className="flex flex-col items-center bg-white rounded-xl shadow-xl mt-2 w-full">
+                  <Link
+                    to="/auth-user"
+                    className="py-2 px-4 text-black flex items-center space-x-2 transition duration-300 hover:bg-gray-400 w-full"
+                  >
+                    <BiSolidUserDetail className="w-6 h-6 mr-2" />
+                    <span>Details</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="py-2 px-4 text-black flex items-center space-x-2 transition duration-300 hover:bg-gray-400 w-full"
+                  >
+                    <TbLogout2 className="w-6 h-6 mr-2" />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/login-user"
+              className="px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center"
+            >
+              Sign In
+            </Link>
+          )}
+          <Link
+            to={homeLink}
+            className="px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center"
+          >
+            Home
+          </Link>
+          <Link
+            to="/upcoming-movie"
+            className="px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center"
+            onClick={handleUnauthorizedClick}
+          >
+            UpComing
+          </Link>
+          <Link
+            to="/top-rated-movie"
+            className="px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center"
+            onClick={handleUnauthorizedClick}
+          >
+            Top Rated
+          </Link>
+          <Link
+            to="/search-movie"
+            className="border-2 border-white rounded-xl px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center flex justify-center items-center mt-2"
+            onClick={handleUnauthorizedClick}
+          >
+            <FaSearch className="mr-2" />
+            Search
+          </Link>
         </div>
       </div>
     </nav>

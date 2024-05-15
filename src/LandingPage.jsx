@@ -24,7 +24,7 @@ export default function LandingPage() {
     const interval = setInterval(() => {
       // Membersihkan interval jika tidak lagi digunakan
       dispatch(setCurrentSlide((currentSlide + 1) % popularMovies?.length));
-    }, 3000); // Bergantung pada nilai slide saat ini dan daftar popularMovies
+    }, 2000); // Bergantung pada nilai slide saat ini dan daftar popularMovies
 
     return () => clearInterval(interval);
   }, [currentSlide, dispatch, popularMovies?.length]);
@@ -47,10 +47,10 @@ export default function LandingPage() {
               }}
             >
               <div className="overlay flex flex-col items-start justify-end h-full px-6 pb-10 text-white">
-                <h1 className="text-6xl l:text-4xl lg:text-4xl text-white font-semibold mb-3 max-w-md">
+                <h1 className="text-5xl l:text-5xl lg:text-5xl text-white font-semibold mb-3 max-w-md">
                   "{movie.title}"
                 </h1>
-                <p className="text-white text-sm md:text-base max-w-md">
+                <p className="text-white text-base md:text-base max-w-md">
                   <span style={{ fontStyle: "italic" }}>
                     {movie.overview.slice(0, 100)}...
                   </span>

@@ -27,7 +27,7 @@ export default function Home() {
     const interval = setInterval(() => {
       // Membersihkan interval jika tidak lagi digunakan
       dispatch(setCurrentSlide((currentSlide + 1) % popularMovies?.length)); // Bergantung pada nilai slide saat ini dan daftar popularMovies
-    }, 3000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [currentSlide, dispatch, popularMovies?.length]);
@@ -66,10 +66,10 @@ export default function Home() {
               }}
             >
               <div className="overlay flex flex-col items-start justify-end h-full px-6 pb-10 text-white">
-                <h1 className="text-6xl l:text-4xl lg:text-4xl text-white font-semibold mb-3 max-w-md">
+                <h1 className="text-5xl l:text-5xl lg:text-5xl text-white font-semibold mb-3 max-w-md">
                   "{movie.title}"
                 </h1>
-                <p className="text-white text-sm md:text-base max-w-md">
+                <p className="text-white text-base md:text-base max-w-md">
                   <span style={{ fontStyle: "italic" }}>
                     {movie.overview.slice(0, 100)}...
                   </span>
@@ -111,8 +111,7 @@ export default function Home() {
                     src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                     alt=""
                   />
-
-                  <div style={{ fontFamily: "sans-serif" }}>
+                  <div className="mx-2 mt-3 text-white">
                     <div className="font-m font-bold truncate">
                       {movie.title}
                     </div>
