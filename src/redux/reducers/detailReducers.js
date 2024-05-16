@@ -4,6 +4,7 @@ const initialState = {
   detailMovieData: null,
   isLoading: false,
   trailer: null,
+  favorite: false,
 };
 
 const detailSlice = createSlice({
@@ -20,9 +21,13 @@ const detailSlice = createSlice({
     setTrailer: (state, action) => {
       state.trailer = action.payload;
     },
+    setFavorite: (state, action) => {
+      state.isFavorite = action.payload;
+    },
   },
 });
 
-export const { setDetailMovie, setLoading, setTrailer } = detailSlice.actions;
+export const { setDetailMovie, setLoading, setTrailer, setFavorite } =
+  detailSlice.actions;
 
 export default detailSlice.reducer;

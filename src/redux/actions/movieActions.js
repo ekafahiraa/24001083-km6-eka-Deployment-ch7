@@ -10,7 +10,7 @@ import {
   setTopRatedMovies,
 } from "../reducers/movieReducers";
 
-const API_KEY = "af37b503324b91c3940d26917c0251fc";
+const API_KEY = "d0ae83de32a46c56ef37b5365b3cb76e";
 
 // Fungsi untuk fetch data Popular Movies pada Home
 export const fetchPopularMovies = () => async (dispatch) => {

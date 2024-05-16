@@ -5,6 +5,7 @@ import RegisterUser from "./RegisterUser.jsx";
 import LoginUser from "./LoginUser.jsx";
 import AuthUser from "./AuthUser.jsx";
 import Home from "./Home.jsx";
+import FavoriteMovie from "./FavoriteMovie.jsx";
 import SearchMovie from "./SearchMovie.jsx";
 import DetailMovie from "./DetailMovie.jsx";
 import TopRatedMovie from "./TopRatedMovie.jsx";
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/login-user" element={<LoginUser />} />
         <Route path="/auth-user" element={<AuthUser />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/favorite-movie" element={<FavoriteMovie />} />
         <Route path="/search-movie" element={<SearchMovie />} />
         <Route path="/movie-details" element={<DetailMovie />} />
         <Route path="/top-rated-movie" element={<TopRatedMovie />} />

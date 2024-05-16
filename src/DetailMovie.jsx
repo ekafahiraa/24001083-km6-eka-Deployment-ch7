@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { FaCircle, FaPlay } from "react-icons/fa"; // Import FaPlay icon
+import { FaCircle, FaPlay } from "react-icons/fa";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { detailMovie } from "./redux/actions/detailActions";
+import { detailMovie, toggleFavorite } from "./redux/actions/detailActions";
 
 export default function DetailMovie() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { detailMovieData, isLoading, trailer } = useSelector(
+  const { detailMovieData, isLoading, trailer, isFavorite } = useSelector(
     (state) => state.detail
-  ); // Mengambil data dari Reducers menggunakan useSelector
+  );
   const location = useLocation();
   const movieId = location.state?.id;
 
-  // Mengambil data detail film di actions
   useEffect(() => {
     if (movieId) {
       dispatch(detailMovie(movieId));
@@ -24,14 +24,20 @@ export default function DetailMovie() {
 
   useEffect(() => {
     console.log("localStorage ", localStorage.getItem("token"));
-    // Memeriksa apakah item token ada di localStorage
     if (localStorage.getItem("token") === null) {
-      // Menampilkan pesan alert kepada pengguna untuk login terlebih dahulu
       alert("Access restricted. Please log in to continue.");
-      // Mengarahkan pengguna ke halaman login
       navigate("/login-user");
     }
   }, []);
+
+  const handleToggleFavorite = () => {
+    if (localStorage.getItem("email")) {
+      dispatch(toggleFavorite());
+    } else {
+      alert("Please log in to add to favorites.");
+      navigate("/login-user");
+    }
+  };
 
   return (
     <div style={{ fontFamily: "sans-serif" }}>
@@ -60,8 +66,6 @@ export default function DetailMovie() {
         </div>
       ) : (
         <section className="h-screen overflow-auto">
-          {" "}
-          {/* Add overflow-auto to allow scrolling */}
           <div className="mt-60" key={detailMovieData?.title}>
             <div className="absolute top-0 w-full h-screen flex items-center justify-center">
               <img
@@ -70,11 +74,7 @@ export default function DetailMovie() {
                 alt={detailMovieData?.title}
               />
               <div className="absolute p-24 w-full h-screen bg-black/80 flex items-center overflow-auto">
-                {" "}
-                {/* Add overflow-auto */}
                 <div className="container overflow-auto">
-                  {" "}
-                  {/* Add overflow-auto */}
                   <div className="flex gap-6 mt-12 items-center">
                     <div className="w-1/4 mr-5 flex flex-col items-center">
                       <img
@@ -85,7 +85,7 @@ export default function DetailMovie() {
                       {trailer && (
                         <div className="mt-6">
                           <button
-                            className="flex items-center border border-gray-300 bg-[#B22222] text-white px-4 py-2 ml-auto rounded-lg hover:bg-red-900 hover:border-red-700 transition-colors duration-3000"
+                            className="flex items-center border border-gray-300 bg-[#EDBC2B] text-white px-10 py-1.5 rounded-lg hover:bg-[#A66718] hover:border-[#A66718] transition-colors duration-300"
                             onClick={() =>
                               window.open(
                                 `https://www.youtube.com/watch?v=${trailer.key}`,
@@ -93,17 +93,31 @@ export default function DetailMovie() {
                               )
                             }
                           >
-                            <FaPlay className="mr-2" /> Watch Trailer
+                            <FaPlay className="w-4 h-4 mr-2" /> Watch Trailer
                           </button>
                         </div>
                       )}
+                      <div className="mt-3">
+                        <button
+                          className="flex items-center border border-gray-300 bg-blue-500 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 hover:border-blue-700 transition-colors duration-300"
+                          onClick={handleToggleFavorite}
+                        >
+                          {isFavorite ? (
+                            <>
+                              <MdFavorite className="w-6 h-6 mr-2" /> Added to
+                              Favorites
+                            </>
+                          ) : (
+                            <>
+                              <MdFavoriteBorder className="w-6 h-6 mr-2" /> Add
+                              to Favorite
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
                     <div className="w-3/4 flex flex-col justify-between text-white overflow-auto">
-                      {" "}
-                      {/* Add overflow-auto */}
                       <div className="flex flex-col overflow-auto">
-                        {" "}
-                        {/* Add overflow-auto */}
                         <p className="text-4xl font-bold mb-4">
                           "{detailMovieData?.title}"
                         </p>
@@ -125,26 +139,14 @@ export default function DetailMovie() {
                             detailMovieData?.genres.map((genre) => (
                               <div key={genre.id} className="flex items-center">
                                 <FaCircle className="text-primary text-[#B22222]" />
-                                <span className="ml-2">{genre.name}</span>
+                                <p className="ml-2">{genre.name}</p>
                               </div>
                             ))}
                         </div>
-                        <h1 className="text-lg font-semibold mt-6">
-                          Production Countries:
-                        </h1>
-                        <ul className="flex gap-4 mt-2">
-                          {detailMovieData?.production_countries &&
-                            detailMovieData?.production_countries.map(
-                              (country) => (
-                                <li
-                                  key={country.iso_3166_1}
-                                  className="flex items-center"
-                                >
-                                  <span>{country.name}</span>
-                                </li>
-                              )
-                            )}
-                        </ul>
+                        <h1 className="text-lg font-semibold mt-6">Rating:</h1>
+                        <p className="text-white font-normal text-base mt-2">
+                          {detailMovieData?.vote_average} / 10
+                        </p>
                         <h1 className="text-lg font-semibold mt-6">
                           Production Companies:
                         </h1>

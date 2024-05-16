@@ -19,6 +19,7 @@ export const loginUser = (email, password, navigate) => async (dispatch) => {
       dispatch(setUser(responseLogin.data)); // Mengatur setUser ke Reducers
       dispatch(clearError()); // Menghapus error ke Reducers
       localStorage.setItem("token", responseLogin.data.data.token); // Menyimpan token user di local storage
+      localStorage.setItem("email", email); // Menyimpan email user di local storage
       console.log("Data: ", responseLogin.data); // Menampilkan data responseLogin di konsol
       navigate("/home");
       alert(`Login successful, enjoy watching!`);

@@ -70,7 +70,7 @@ export default function Navbar() {
 
   return (
     <nav className="py-4 px-6 top-0 w-full bg-[#B22222] fixed z-10">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container flex justify-between items-center">
         <Link
           to={homeLink}
           className="flex items-center text-4xl font-semibold text-white"
@@ -79,10 +79,7 @@ export default function Navbar() {
           <span className="italic">Streamflix</span>
         </Link>
         <div className="md:hidden">
-          <button
-            onClick={toggleMenu}
-            className="text-white focus:outline-none"
-          >
+          <button onClick={toggleMenu} className="text-white">
             {menuOpen ? (
               <FiX className="w-8 h-8" />
             ) : (
@@ -90,7 +87,7 @@ export default function Navbar() {
             )}
           </button>
         </div>
-        <div className="hidden md:flex items-center gap-2 relative">
+        <div className={`hidden md:flex items-center gap-2 relative`}>
           <div className="flex gap-4">
             {isLoggedIn ? (
               <div className="relative flex items-center">
@@ -98,8 +95,8 @@ export default function Navbar() {
                   onClick={toggleDropdown}
                   className="flex items-center px-2 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold"
                 >
-                  <IoPersonCircleOutline className="w-8 h-8 ease-in-out transform hover:scale-125" />
-                  <span className="ml-2">Account</span>
+                  <IoPersonCircleOutline className="w-8 h-8 ease-in-out transform hover:scale-110" />
+                  {/* <span className="ml-2">Account</span> */}
                 </button>
 
                 {showDropdown && (
@@ -131,12 +128,12 @@ export default function Navbar() {
                 Sign In
               </Link>
             )}
-            <Link
-              to={homeLink}
+            <a
+              href="#footer"
               className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
             >
-              Home
-            </Link>
+              Contact Us
+            </a>
             <Link
               to="/upcoming-movie"
               className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
@@ -164,30 +161,30 @@ export default function Navbar() {
         <div
           className={`flex-col ${
             menuOpen ? "flex" : "hidden"
-          } md:hidden items-center bg-[#B22222] w-full mt-4 rounded-lg shadow-lg transition-all duration-300 ease-in-out`}
+          } md:hidden items-center bg-[#B22222] w-full mt-4`}
         >
           {isLoggedIn ? (
-            <div className="flex flex-col items-center w-full">
+            <div className="flex flex-col items-center">
               <button
                 onClick={toggleDropdown}
-                className="flex items-center px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full"
+                className="flex items-center px-2 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold"
               >
                 <IoPersonCircleOutline className="w-8 h-8 ease-in-out transform hover:scale-125" />
-                <span className="ml-2">Account</span>
+                {/* <span className="ml-2">Account</span> */}
               </button>
 
               {showDropdown && (
-                <div className="flex flex-col items-center bg-white rounded-xl shadow-xl mt-2 w-full">
+                <div className="flex flex-col items-center bg-white rounded-xl shadow-xl mt-2">
                   <Link
                     to="/auth-user"
-                    className="py-2 px-4 text-black flex items-center space-x-2 transition duration-300 hover:bg-gray-400 w-full"
+                    className="py-2 px-4 text-black flex items-center space-x-2 transition duration-300 hover:bg-gray-400"
                   >
                     <BiSolidUserDetail className="w-6 h-6 mr-2" />
                     <span>Details</span>
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="py-2 px-4 text-black flex items-center space-x-2 transition duration-300 hover:bg-gray-400 w-full"
+                    className="py-2 px-4 text-black flex items-center space-x-2 transition duration-300 hover:bg-gray-400"
                   >
                     <TbLogout2 className="w-6 h-6 mr-2" />
                     <span>Logout</span>
@@ -198,37 +195,37 @@ export default function Navbar() {
           ) : (
             <Link
               to="/login-user"
-              className="px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center"
+              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
             >
               Sign In
             </Link>
           )}
           <Link
             to={homeLink}
-            className="px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center"
+            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
           >
             Home
           </Link>
           <Link
             to="/upcoming-movie"
-            className="px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center"
+            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
             onClick={handleUnauthorizedClick}
           >
             UpComing
           </Link>
           <Link
             to="/top-rated-movie"
-            className="px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center"
+            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
             onClick={handleUnauthorizedClick}
           >
             Top Rated
           </Link>
           <Link
             to="/search-movie"
-            className="border-2 border-white rounded-xl px-4 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold w-full text-center flex justify-center items-center mt-2"
+            className="border-2 border-white rounded-xl px-4 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold flex items-center"
             onClick={handleUnauthorizedClick}
           >
-            <FaSearch className="mr-2" />
+            <FaSearch className="mr-3" />
             Search
           </Link>
         </div>
