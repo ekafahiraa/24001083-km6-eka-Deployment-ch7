@@ -4,50 +4,54 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 export default function FavoriteMovie() {
-  const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const email = localStorage.getItem("email"); // Ambil email dari localStorage
+  const [movies, setMovies] = useState([]); // State untuk menyimpan daftar film favorit
+  const token = localStorage.getItem("token"); // Mengambil token dari localStorage
+  const email = localStorage.getItem("email"); // Mengambil email dari localStorage
 
   useEffect(() => {
     if (!token) {
+      // Menampilkan pesan jika token tidak ditemukan
       alert("Access restricted. Please log in to continue.");
       navigate("/login-user");
       return;
     }
 
     if (!email) {
+      // Menampilkan pesan jika email tidak ditemukan
       alert("User email not found. Please log in again.");
       navigate("/login-user");
       return;
     }
 
-    const favoritesKey = `${email}-favorites`;
+    const favoritesKey = `${email}-favorites`; // Membuat key untuk film favorit berdasarkan email
     const storedFavorites =
-      JSON.parse(localStorage.getItem(favoritesKey)) || [];
-    setMovies(storedFavorites);
-  }, [navigate, token, email]);
+      JSON.parse(localStorage.getItem(favoritesKey)) || []; // Mengambil daftar film favorit dari localStorage
+    setMovies(storedFavorites); // Menyimpan daftar film favorit ke state
+  }, [navigate, token, email]); // Menjalankan ketika navigate, token, atau email berubah
 
   const removeFromFavorites = (id) => {
+    // Menampilkan konfirmasi penghapusan salah satu film favorit
     const confirmRemove = window.confirm(
       "Are you sure you want to remove this movie from favorites?"
     );
     if (confirmRemove) {
-      const favoritesKey = `${email}-favorites`;
-      const updatedFavorites = movies.filter((movie) => movie.id !== id);
-      localStorage.setItem(favoritesKey, JSON.stringify(updatedFavorites));
-      setMovies(updatedFavorites);
+      const favoritesKey = `${email}-favorites`; // Membuat key untuk film favorit berdasarkan email
+      const updatedFavorites = movies.filter((movie) => movie.id !== id); // Menghapus film dari daftar favorit
+      localStorage.setItem(favoritesKey, JSON.stringify(updatedFavorites)); // Menyimpan daftar favorit yang telah diperbarui ke localStorage
+      setMovies(updatedFavorites); // Memperbarui state dengan daftar favorit yang telah diperbarui
     }
   };
 
   const removeAllFavorites = () => {
+    // Menampilkan konfirmasi penghapusan semua film favorit
     const confirmRemoveAll = window.confirm(
       "Are you sure you want to remove all favorite movies?"
     );
     if (confirmRemoveAll) {
-      const favoritesKey = `${email}-favorites`;
-      localStorage.removeItem(favoritesKey);
-      setMovies([]);
+      const favoritesKey = `${email}-favorites`; // Membuat key untuk film favorit berdasarkan email
+      localStorage.removeItem(favoritesKey); // Menghapus semua film favorit dari localStorage
+      setMovies([]); // Mengosongkan state daftar film favorit
     }
   };
 
@@ -56,9 +60,7 @@ export default function FavoriteMovie() {
       className="font-poppins"
       style={{ fontFamily: "'Poppins', sans-serif" }}
     >
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
       <div className="min-h-screen bg-[#2C2C2C] text-white pt-20">
         <div className="container mx-auto">
           <div className="flex flex-col gap-4 items-center">

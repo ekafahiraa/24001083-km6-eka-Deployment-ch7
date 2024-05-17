@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import "./App.css";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate, Link } from "react-router-dom";
 import { setCurrentSlide } from "./redux/reducers/movieReducers";
@@ -11,6 +8,9 @@ import {
   fetchNowPlayingMovies,
   fetchTrendingMovies,
 } from "./redux/actions/movieActions"; // Actions untuk fetch data film
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import "./App.css";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -41,13 +41,11 @@ export default function Home() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("localStorage ", localStorage.getItem("token"));
-    // Memeriksa apakah item token ada di localStorage
+    console.log("localStorage ", localStorage.getItem("token")); // Mengecek token yang ada di localStorage
     if (localStorage.getItem("token") === null) {
-      // Menampilkan pesan alert kepada pengguna untuk login terlebih dahulu
-      alert("Access restricted. Please log in to continue.");
-      // Mengarahkan pengguna ke halaman login
-      navigate("/login-user");
+      // Memeriksa jika token tidak ditemukan
+      alert("Access restricted. Please log in to continue."); // Menampilkan pesan jika token tidak ditemukan
+      navigate("/login-user"); // Mengarahkan pengguna ke halaman login
     }
   }, []);
 
@@ -79,9 +77,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div>
-          <Navbar />
-        </div>
+        <Navbar />
 
         <div className="min-h-screen bg-[#2C2C2C] text-white p-10">
           <div className="flex items-center">

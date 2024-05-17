@@ -7,8 +7,8 @@ import Footer from "./Footer";
 
 export default function TopRatedMovie() {
   const dispatch = useDispatch();
-  const topRatedMovies = useSelector((state) => state.movies.topRatedMovies); // Mengambil data allTopRatedMovies dari Reducers menggunakan useSelector
   const navigate = useNavigate();
+  const topRatedMovies = useSelector((state) => state.movies.topRatedMovies); // Mengambil data allTopRatedMovies dari Reducers menggunakan useSelector
 
   // Mengambil semua data Top Rated Movies dari Actions
   useEffect(() => {
@@ -16,21 +16,17 @@ export default function TopRatedMovie() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("localStorage ", localStorage.getItem("token"));
-    // Memeriksa apakah item token ada di localStorage
+    console.log("localStorage ", localStorage.getItem("token")); // Mengecek token yang ada di localStorage
     if (localStorage.getItem("token") === null) {
-      // Menampilkan pesan alert kepada pengguna untuk login terlebih dahulu
-      alert("Access restricted. Please log in to continue.");
-      // Mengarahkan pengguna ke halaman login
-      navigate("/login-user");
+      // Memeriksa jika token tidak ditemukan
+      alert("Access restricted. Please log in to continue."); // Menampilkan pesan jika token tidak ditemukan
+      navigate("/login-user"); // Mengarahkan pengguna ke halaman login
     }
   }, []);
 
   return (
     <div style={{ fontFamily: "sans-serif" }}>
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
       <div className="min-h-screen bg-[#2C2C2C] text-white pt-20">
         <div className="container mx-auto">
           <div className="flex flex-col gap-4 items-center">

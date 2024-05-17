@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import { useDispatch, useSelector } from "react-redux";
 import { MdEmail } from "react-icons/md";
 import { BsPersonFill } from "react-icons/bs";
 import { BiSolidLock, BiShow, BiHide } from "react-icons/bi";
-import backgroundImage from "./bglogin.png";
 import { registerUser } from "./redux/actions/registerActions";
 import {
   setEmail,
@@ -15,6 +12,9 @@ import {
   setShowPassword,
   clearError,
 } from "./redux/reducers/registerReducers";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import backgroundImage from "./bglogin.png";
 
 export default function RegisterUser() {
   const dispatch = useDispatch();
@@ -80,9 +80,7 @@ export default function RegisterUser() {
 
   return (
     <div style={{ fontFamily: "sans-serif" }}>
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,

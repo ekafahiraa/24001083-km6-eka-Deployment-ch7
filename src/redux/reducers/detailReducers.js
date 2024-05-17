@@ -4,7 +4,7 @@ const initialState = {
   detailMovieData: null,
   isLoading: false,
   trailer: null,
-  favorite: false,
+  isFavorite: false,
 };
 
 const detailSlice = createSlice({

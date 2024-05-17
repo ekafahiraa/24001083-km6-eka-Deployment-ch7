@@ -3,19 +3,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FaCircle, FaPlay } from "react-icons/fa";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
+import { detailMovie, toggleFavorite } from "./redux/actions/detailActions";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { detailMovie, toggleFavorite } from "./redux/actions/detailActions";
 
 export default function DetailMovie() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { detailMovieData, isLoading, trailer, isFavorite } = useSelector(
-    (state) => state.detail
-  );
   const location = useLocation();
   const movieId = location.state?.id;
+  const { detailMovieData, isLoading, trailer, isFavorite } = useSelector(
+    (state) => state.detail
+  ); // Mengambil data dari Reducers menggunakan useSelector
 
+  // Mengambil data detail film di actions
   useEffect(() => {
     if (movieId) {
       dispatch(detailMovie(movieId));
@@ -23,18 +24,19 @@ export default function DetailMovie() {
   }, [dispatch, movieId]);
 
   useEffect(() => {
-    console.log("localStorage ", localStorage.getItem("token"));
+    console.log("localStorage ", localStorage.getItem("token")); // Mengecek token yang ada di localStorage
     if (localStorage.getItem("token") === null) {
-      alert("Access restricted. Please log in to continue.");
-      navigate("/login-user");
+      // Memeriksa jika token tidak ditemukan
+      alert("Access restricted. Please log in to continue."); // Menampilkan pesan jika token tidak ditemukan
+      navigate("/login-user"); // Mengarahkan pengguna ke halaman login
     }
   }, []);
 
   const handleToggleFavorite = () => {
     if (localStorage.getItem("email")) {
-      dispatch(toggleFavorite());
+      dispatch(toggleFavorite()); // Mengirimkan action toggleFavorite jika email ada di localStorage
     } else {
-      alert("Please log in to add to favorites.");
+      alert("Please log in to add to favorites."); // Menampilkan pesan jika email tidak ditemukan
       navigate("/login-user");
     }
   };
@@ -85,7 +87,7 @@ export default function DetailMovie() {
                       {trailer && (
                         <div className="mt-6">
                           <button
-                            className="flex items-center border border-gray-300 bg-[#EDBC2B] text-white px-10 py-1.5 rounded-lg hover:bg-[#A66718] hover:border-[#A66718] transition-colors duration-300"
+                            className="flex items-center border border-gray-300 bg-[#515158] text-white px-10 py-1.5 rounded-lg hover:bg-[#312E36] hover:border-[#312E36] transition-colors duration-300"
                             onClick={() =>
                               window.open(
                                 `https://www.youtube.com/watch?v=${trailer.key}`,
@@ -99,7 +101,7 @@ export default function DetailMovie() {
                       )}
                       <div className="mt-3">
                         <button
-                          className="flex items-center border border-gray-300 bg-blue-500 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 hover:border-blue-700 transition-colors duration-300"
+                          className="flex items-center border border-gray-300 bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-900 hover:border-blue-900 transition-colors duration-300"
                           onClick={handleToggleFavorite}
                         >
                           {isFavorite ? (

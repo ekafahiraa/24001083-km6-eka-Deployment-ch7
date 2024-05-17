@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BiCameraMovie, BiSolidUserDetail } from "react-icons/bi";
@@ -5,40 +6,39 @@ import { FaSearch } from "react-icons/fa";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { FiMenu, FiX } from "react-icons/fi";
-import axios from "axios";
 
 export default function Navbar() {
-  const isLoggedIn = localStorage.getItem("token");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false); // State untuk mengontrol tampilan dropdown
+  const [menuOpen, setMenuOpen] = useState(false); // State untuk mengontrol tampilan menu
+  const [userData, setUserData] = useState(null); // State untuk menyimpan data pengguna
+  const isLoggedIn = localStorage.getItem("token"); // Memeriksa apakah token ada di localStorage untuk menentukan status login
 
   const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
+    setShowDropdown(!showDropdown); // Mengubah state untuk menampilkan atau menyembunyikan dropdown
   };
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    setMenuOpen(!menuOpen); // Mengubah state untuk menampilkan atau menyembunyikan menu
   };
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    const confirmLogout = window.confirm("Are you sure you want to logout?"); // Menampilkan konfirmasi logout kepada pengguna
     if (confirmLogout) {
-      localStorage.removeItem("token");
-      navigate("/");
-      alert("Logout Successful!");
+      localStorage.removeItem("token"); // Menghapus token dari localStorage
+      navigate("/"); // Navigasi kembali ke halaman landing page setelah logout
+      alert("Logout Successful!"); // Menampilkan pesan bahwa logout berhasil
     }
   };
 
   const handleUnauthorizedClick = (event) => {
     if (!isLoggedIn) {
       event.preventDefault();
-      alert("You need to Sign In first!");
+      alert("You need to Sign In first!"); // Menampilkan pesan bahwa pengguna perlu login terlebih dahulu
     }
   };
 
-  const homeLink = isLoggedIn ? "/home" : "/";
+  const homeLink = isLoggedIn ? "/home" : "/"; // Menentukan link home berdasarkan status login
 
   useEffect(() => {
     async function fetchData() {
@@ -50,10 +50,10 @@ export default function Navbar() {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
-        );
-        const userData = response.data;
+        ); // Mengambil data pengguna dari API
+        const userData = response.data; // Menyimpan data pengguna dari response
         console.log("User profile: ", userData);
-        setUserData(userData);
+        setUserData(userData); // Menyimpan data pengguna
       } catch (error) {
         if (error.response && error.response.status === 401) {
           alert("Token expired");
@@ -64,9 +64,9 @@ export default function Navbar() {
       }
     }
     if (isLoggedIn) {
-      fetchData();
+      fetchData(); // Mengambil data pengguna jika pengguna telah login
     }
-  }, []);
+  }, []); // Menjalankan ketika isLoggedIn berubah
 
   return (
     <nav className="py-4 px-6 top-0 w-full bg-[#B22222] fixed z-10">
@@ -89,6 +89,34 @@ export default function Navbar() {
         </div>
         <div className={`hidden md:flex items-center gap-2 relative`}>
           <div className="flex gap-4">
+            <Link
+              to="/search-movie"
+              className="border-2 border-white rounded-xl px-6 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold flex items-center"
+              onClick={handleUnauthorizedClick}
+            >
+              <FaSearch className="mr-3" />
+              Search
+            </Link>
+            <Link
+              to="/upcoming-movie"
+              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
+              onClick={handleUnauthorizedClick}
+            >
+              Upcoming
+            </Link>
+            <Link
+              to="/top-rated-movie"
+              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
+              onClick={handleUnauthorizedClick}
+            >
+              Top Rated
+            </Link>
+            <a
+              href="#footer"
+              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
+            >
+              Contact Us
+            </a>
             {isLoggedIn ? (
               <div className="relative flex items-center">
                 <button
@@ -96,7 +124,6 @@ export default function Navbar() {
                   className="flex items-center px-2 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold"
                 >
                   <IoPersonCircleOutline className="w-8 h-8 ease-in-out transform hover:scale-110" />
-                  {/* <span className="ml-2">Account</span> */}
                 </button>
 
                 {showDropdown && (
@@ -128,34 +155,6 @@ export default function Navbar() {
                 Sign In
               </Link>
             )}
-            <a
-              href="#footer"
-              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
-            >
-              Contact Us
-            </a>
-            <Link
-              to="/upcoming-movie"
-              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
-              onClick={handleUnauthorizedClick}
-            >
-              UpComing
-            </Link>
-            <Link
-              to="/top-rated-movie"
-              className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
-              onClick={handleUnauthorizedClick}
-            >
-              Top Rated
-            </Link>
-            <Link
-              to="/search-movie"
-              className="border-2 border-white rounded-xl px-4 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold flex items-center"
-              onClick={handleUnauthorizedClick}
-            >
-              <FaSearch className="mr-3" />
-              Search
-            </Link>
           </div>
         </div>
         <div
@@ -163,14 +162,41 @@ export default function Navbar() {
             menuOpen ? "flex" : "hidden"
           } md:hidden items-center bg-[#B22222] w-full mt-4`}
         >
+          <Link
+            to="/search-movie"
+            className="border-2 border-white rounded-xl px-6 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold flex items-center"
+            onClick={handleUnauthorizedClick}
+          >
+            <FaSearch className="mr-3" />
+            Search
+          </Link>
+          <Link
+            to="/upcoming-movie"
+            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
+            onClick={handleUnauthorizedClick}
+          >
+            Upcoming
+          </Link>
+          <Link
+            to="/top-rated-movie"
+            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
+            onClick={handleUnauthorizedClick}
+          >
+            Top Rated
+          </Link>
+          <a
+            href="#footer"
+            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
+          >
+            Contact Us
+          </a>
           {isLoggedIn ? (
-            <div className="flex flex-col items-center">
+            <div className="flex flexcol items-center">
               <button
                 onClick={toggleDropdown}
                 className="flex items-center px-2 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold"
               >
                 <IoPersonCircleOutline className="w-8 h-8 ease-in-out transform hover:scale-125" />
-                {/* <span className="ml-2">Account</span> */}
               </button>
 
               {showDropdown && (
@@ -200,34 +226,6 @@ export default function Navbar() {
               Sign In
             </Link>
           )}
-          <Link
-            to={homeLink}
-            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
-          >
-            Home
-          </Link>
-          <Link
-            to="/upcoming-movie"
-            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
-            onClick={handleUnauthorizedClick}
-          >
-            UpComing
-          </Link>
-          <Link
-            to="/top-rated-movie"
-            className="px-2 py-2 text-white cursor-pointer hover:text-primary hover:font-semibold"
-            onClick={handleUnauthorizedClick}
-          >
-            Top Rated
-          </Link>
-          <Link
-            to="/search-movie"
-            className="border-2 border-white rounded-xl px-4 py-1 text-white cursor-pointer hover:text-primary hover:font-semibold flex items-center"
-            onClick={handleUnauthorizedClick}
-          >
-            <FaSearch className="mr-3" />
-            Search
-          </Link>
         </div>
       </div>
     </nav>

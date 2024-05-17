@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { MdEmail } from "react-icons/md";
 import { BiSolidLock, BiShow, BiHide } from "react-icons/bi";
-import LoginGoogle from "./LoginGoogle";
-import backgroundImage from "./bglogin.png";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 import { loginUser } from "./redux/actions/loginActions";
 import {
   setEmail,
@@ -14,6 +10,10 @@ import {
   setShowPassword,
   clearError,
 } from "./redux/reducers/loginReducers";
+import LoginGoogle from "./LoginGoogle";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import backgroundImage from "./bglogin.png";
 
 export default function LoginUser() {
   const dispatch = useDispatch();

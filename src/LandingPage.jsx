@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setCurrentSlide } from "./redux/reducers/movieReducers";
+import { fetchPopularMovies } from "./redux/actions/movieActions";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./App.css";
-import { setCurrentSlide } from "./redux/reducers/movieReducers";
-import { fetchPopularMovies } from "./redux/actions/movieActions";
 
 export default function LandingPage() {
   const dispatch = useDispatch();
@@ -31,9 +31,7 @@ export default function LandingPage() {
 
   return (
     <div style={{ fontFamily: "sans-serif" }}>
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
       <>
         <div className="carousel">
           {popularMovies?.map((movie, index) => (
